@@ -14,7 +14,7 @@ migrate_working_dir/
 *.iml
 *.ipr
 *.iws
-.idea/workspace.xml
+.idea/
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
@@ -27,4 +27,9 @@ migrate_working_dir/
 **/doc/api/
 .dart_tool/
 build/
-.rotating_gradient_loader/
+.dart_tool/package_config.json
+.dart_tool/package_config_subset
+.dart_tool/version
+.idea/workspace.xml
+pubspec.lock
+rotating_gradient_loader.iml
