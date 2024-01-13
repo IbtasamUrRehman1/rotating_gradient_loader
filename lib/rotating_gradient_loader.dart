@@ -38,7 +38,7 @@ class _RotatingGradientLoaderState extends State<RotatingGradientLoader>
     // Initialize the animation controller with a 2-second duration, set to repeat.
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 3),
+      duration: Duration(seconds: 2),
     )..repeat();
   }
 
