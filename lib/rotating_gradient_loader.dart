@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
-
-/// A Flutter widget that displays a rotating gradient loader.
-///
-/// The loader consists of a circular icon with a rotating gradient effect.
-/// It uses [AnimatedBuilder] and [Transform.rotate] to achieve the rotation,
-/// and [ShaderMask] with [LinearGradient] for the rotating gradient effect.
+/// A customizable rotating gradient loader widget for Flutter.
 class RotatingGradientLoader extends StatefulWidget {
+  /// The size of the loader.
+  final double size;
+
+  /// The primary color of the rotating gradient.
+  final Color primaryColor;
+
+  /// The secondary color of the rotating gradient.
+  final Color secondaryColor;
+
+  /// Creates a [RotatingGradientLoader] widget.
+  ///
+  /// Users must provide the [size], [primaryColor], and [secondaryColor].
+  const RotatingGradientLoader({
+    Key? key,
+    required this.size,
+    required this.primaryColor,
+    required this.secondaryColor,
+  }) : super(key: key);
+
   @override
   _RotatingGradientLoaderState createState() => _RotatingGradientLoaderState();
 }
 
-/// The state class for [RotatingGradientLoader].
+/// The state class for the [RotatingGradientLoader] widget.
 ///
-/// Manages the [AnimationController] and builds the widget tree using
-/// [AnimatedBuilder] to achieve the rotating gradient loader effect.
+/// Manages the animation controller and animation for the rotating gradient loader.
 class _RotatingGradientLoaderState extends State<RotatingGradientLoader>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
@@ -22,7 +35,7 @@ class _RotatingGradientLoaderState extends State<RotatingGradientLoader>
   void initState() {
     super.initState();
 
-    // Initialize the animation controller with a 2-second duration, set to repeat
+    // Initialize the animation controller with a 2-second duration, set to repeat.
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),
@@ -31,44 +44,38 @@ class _RotatingGradientLoaderState extends State<RotatingGradientLoader>
 
   @override
   void dispose() {
-    // Dispose of the animation controller when the widget is disposed
+    // Dispose of the animation controller when the widget is disposed.
     _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Rotating Gradient Loader'),
-      ),
-      body: Center(
-        child: AnimatedBuilder(
-          animation: _controller,
-          builder: (context, child) {
-            // Rotate the gradient circle using Transform.rotate
-            return Transform.rotate(
-              angle: _controller.value * 2 * 3.1416,
-              child: ShaderMask(
-                shaderCallback: (Rect bounds) {
-                  // Create a LinearGradient shader for the rotating gradient effect
-                  return LinearGradient(
-                    colors: [Color(0xff36D1DC), Color(0xff5B86E5)],
-                    stops: [0.0, 1.0],
-                    transform: GradientRotation(_controller.value * 2 * 3.1416),
-                  ).createShader(bounds);
-                },
-                // Display an icon (could be replaced with any other widget)
-                child: Icon(
-                  Icons.circle,
-                  size: 100.0,
-                  color: Colors.white,
-                ),
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Transform.rotate(
+          angle: _controller.value * 2 * 3.1416,
+          child: ShaderMask(
+            shaderCallback: (Rect bounds) {
+              // Create a LinearGradient shader for the rotating gradient effect.
+              return LinearGradient(
+                colors: [widget.primaryColor, widget.secondaryColor],
+                stops: [0.0, 1.0],
+                transform: GradientRotation(_controller.value * 2 * 3.1416),
+              ).createShader(bounds);
+            },
+            child: Container(
+              width: widget.size,
+              height: widget.size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white, // Change the color as needed.
               ),
-            );
-          },
-        ),
-      ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
