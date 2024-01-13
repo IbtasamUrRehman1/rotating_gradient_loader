@@ -13,7 +13,7 @@ To use this package, add `rotating_gradient_loader` to your `pubspec.yaml` file:
 
 ```dart
 
-class BounceBallLoader extends StatelessWidget {
+class RotatingGradientLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
